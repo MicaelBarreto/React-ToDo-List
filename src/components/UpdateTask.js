@@ -1,4 +1,8 @@
-import React from 'react'
+import React, {Component} from 'react';
 import {
 
-} from 'react-bootstrap'
+} from 'react-bootstrap';
+
+export default class UpdateTask extends Component{
+    
+}
