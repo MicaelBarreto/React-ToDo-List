@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import Modal from 'react-modal';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const initialState = { name: '', done: false, done_at: '', modal: false}
+const initialState = { name: '', done: false, modal: false}
 
 export default class AddTask extends Component{
     constructor(props){
@@ -22,32 +23,46 @@ export default class AddTask extends Component{
     check = () => {
         var done = {...this.state.done};
         done = done === false ? true : false;
-        done_at = done === true ? new Date() : ''
-        this.setState({ done, done_at });
+        this.setState({ done });
     }
 
     render(){
         return (
             <Modal
-                isOpen={this.state.modal}
-                onRequestClose={this.setState({ modal: false })}
+                isOpen={this.props.isVisible}
+                onRequestClose={this.props.onCancel}
+                ariaHideApp={false}
             >
-                <div className='container'>
-                    <h2>New Task</h2>
-                    <form className=''>
-                        <div className='form-control'>
-                            <label className='col-md-12'>Name</label>
-                            <div className='col-md-10'>
-                                <input className='form-control' onChange={event => this.setState({ name: event })}></input>
-                            </div>
+               <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title">New Task</h5>
+                            <button className='close' onClick={() => this.props.onCancel}></button>
                         </div>
-                        <div className='form-control'>
-                            <input type='checkbox' className='col-md-12 form-control' onChange={() => this.check}></input>
+                        <div className='modal-body'>
+                            <form>
+                                <div className='form-group'>
+                                    <label className='col-md-12'>Name</label>
+                                    <div className='col-md-10'>
+                                        <input className='form-control' onChange={event => this.setState({ name: event })}></input>
+                                    </div>
+                                </div>
+                                <div className='form-group'>
+                                    <input class="form-check-input" type="checkbox" onChange={() => this.check} />
+                                    <label class="form-check-label">
+                                        Is done?
+                                    </label>
+                                </div>
+                            </form>
                         </div>
-                        <div className='form-control'>
-                            <button className='btn bnt-success' onClick={() => this.save}>Add</button>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" onClick={() => this.props.onCancel}>Close</button>
+                            <button className='btn bnt-success' onClick={() => this.save}>
+                                <FontAwesomeIcon icon="plus" />
+                                Add
+                            </button>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </Modal>
         );
