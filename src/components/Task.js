@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
-import {
-    Button
-} from 'react-bootstrap';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import AddTask from './components/AddTask';
+import UpdateTask from './components/UpdateTask';
 
 export default class Task extends Component{
     constructor(props){
@@ -15,7 +15,9 @@ export default class Task extends Component{
         ];
 
         this.state={
-            tasks
+            tasks,
+            showAddTask: false,
+            showUpdateTask: false
         };
     }
 
@@ -32,12 +34,18 @@ export default class Task extends Component{
     render() {
         return (
             <div className='container'>
-            <div ></div>
+                <AddTask isVisible={this.state.showAddTask}
+                    onSave={this.addTask}
+                    onCancel={() => this.setState({ showAddTask: false })} />
+                <div className='col-md-2'>
+                    <button onClick={() => this.setState({ showAddTask: true })}>Add</button>
+                </div>
                 <table>
                     <tr>
                         <th>Status</th>
                         <th>To Do</th>
                         <th>Done At</th>
+                        <th>Actions</th>
                     </tr>
                     {this.state.tasks.map((task) => {
                         return (
@@ -47,6 +55,10 @@ export default class Task extends Component{
                                 </td>
                                 <td>{task.name}</td>
                                 <td>{task.done_at}</td>
+                                <td>
+                                    <button>Update</button>
+                                    <button>Delete</button>
+                                </td>
                             </tr>
                         );
                     })}
