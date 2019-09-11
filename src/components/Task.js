@@ -1,85 +1,21 @@
 import React, { Component } from 'react';
-import AddTask from './AddTask';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Touchable from 'rc-touchable';
-import Modal from 'react-modal';
+import { Link } from 'react-router-dom'
 
 export default class Task extends Component{
     constructor(props){
         super(props);
 
-        var tasks = [
-            {id:0, name: 'Reunião', done: false, list: [
-                {name: 'Metas', done: false},
-                {name: 'Lucros', done: true},
-                {name: 'Novas propóstas', done: true},
-            ]},
-            {id:1, name: 'Reunião', done: true, list: [
-                {name: 'Metas', done: false},
-                {name: 'Lucros', done: true},
-                {name: 'Novas propóstas', done: true},
-            ]},
-            {id:2, name: 'Reunião', done: false, list: [
-                {name: 'Metas', done: false},
-                {name: 'Lucros', done: true},
-                {name: 'Novas propóstas', done: true},
-            ]},
-            {id:3, name: 'Reunião', done: true, list: [
-                {name: 'Metas', done: false},
-                {name: 'Lucros', done: true},
-                {name: 'Novas propóstas', done: true},
-            ]},
-        ];
-
         this.state={
-            tasks,
-            showAddTask: false,
-            showUpdateTask: false,
-            task: {}
+            tasks: this.props.tasks
         };
-    }
-
-    addTask = task => {
-        var tasks = [...this.state.tasks];
-        tasks.push({
-            name: task.name,
-            done: task.done,
-            done_at: task.date
-        });
-        this.setState({ tasks });
-    }
-
-    updateTask = task => {
-        var tasks = {...this.state.tasks};
-        tasks[task.id].name = task;
-        this.setState({ tasks });
-    }
-
-    handleDone = task => {
-        var tasks = {...this.state.tasks};
-        tasks[task.id].done = tasks[task.id].done === true ? false : true;
-        this.setState({ tasks });
-    }
-
-    deleteTask = id => {
-        var tasks = this.state.tasks.filter(task => task.id !== id)
-        this.setState({ tasks })
-    }
-
-    changeEvent = event => {
-        var task = {...this.state.task}
-        task.name = event
-        this.setState({ task })
     }
 
     render() {
         return (
             <div className='container'>
-                <AddTask isVisible={this.state.showAddTask}
-                    onSave={this.addTask}
-                    onCancel={() => this.setState({ showAddTask: false }, console.log('cancel'))} 
-                />
-                <Modal
+                {/* <Modal
                     isOpen={this.state.showUpdateTask}
                     onRequestClose={() => this.setState({ showUpdateTask: false })}
                     ariaHideApp={false}
@@ -108,68 +44,80 @@ export default class Task extends Component{
                             </div>
                         </div>
                     </div>
-                </Modal>
-                <div className='col-md-2 pull-right'>
-                    <button onClick={() => this.setState({ showAddTask: true })} className='btn btn-success'>
-                        <FontAwesomeIcon icon='plus' />
-                        New
-                    </button>
+                </Modal> */}
+                <div className='row'>
+                    <div className='float-right'>
+                        <Link className='btn btn-success' to='/create'>
+                            <FontAwesomeIcon icon='plus' />
+                            New
+                        </Link>
+                    </div>
                 </div>
-                <table className='table'>
-                    <thead>
-                        <tr>
-                            <th>Status</th>
-                            <th className='col-md-5'>To Do</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.state.tasks.map((task) => {
-                            return (
-                                <tr>
-                                    <td>
-                                        <Touchable onPress={() => this.handleDone(task)} activeClassName=''>
-                                            <FontAwesomeIcon icon="check-circle" color={task.done === true ? '#218838' : '#DEE2E6'} />
-                                        </Touchable>
-                                    </td>
-                                    <td>                                        
-                                        <div>
-                                            <div>{task.name}</div>
-                                            <div>
-                                                <ul>
-                                                    {task.list.map((list) => {
+                <div className='row'>
+                    <table className='table'>
+                        <thead>
+                            <tr>
+                                <th>Status</th>
+                                <th className='col-md-9'>To Do</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {this.state.tasks.map((task) => {
+                                return (
+                                    <tr>
+                                        <td className='align-middle'>
+                                            <Touchable onPress={() => this.props.handleDone(task)} activeClassName=''>
+                                                <FontAwesomeIcon icon="check-circle" color={task.done === true ? '#218838' : '#DEE2E6'} size='4x' />
+                                            </Touchable>
+                                        </td>
+                                        <td>                                        
+                                            <div className='container offset-md-2'>
+                                                <h3>{task.name}</h3>
+                                                <div className='offset-md-1'>                                                
+                                                    {task.list.map((list, i) => {
                                                         return(
-                                                            <li>
-                                                                <Touchable onPress={() => this.setState({ task: 'a' })} activeClassName=''>
-                                                                    <FontAwesomeIcon icon="check-circle" color={list.done === true ? '#218838' : '#DEE2E6'} />                                                                
-                                                                </Touchable>
-                                                                {list.name}
-                                                                <button className='btn btn-danger' onClick={() => this.setState({ task: 'a' })}>
-                                                                    <FontAwesomeIcon icon='times' />
-                                                                    Delete
-                                                                </button>
-                                                            </li>
+                                                            <Touchable onPress={() => this.props.handleDoneList(task.id, i)} activeClassName=''>
+                                                                <ul class="list-inline">
+                                                                    <li className='list-inline-item'>
+                                                                        <FontAwesomeIcon icon="check-circle" color={list.done === true ? '#218838' : '#DEE2E6'} size='lg' /> 
+                                                                    </li>
+                                                                    <li className='list-inline-item'>
+                                                                        {list.name}
+                                                                    </li>
+                                                                </ul>                                                              
+                                                            </Touchable>                                                                
                                                         );
-                                                    })}
-                                                </ul>
+                                                    })}                                                
+                                                </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <button className='btn btn-warning' onClick={() => this.setState({ task, showUpdateTask: true })}>
-                                            <FontAwesomeIcon icon='edit' />
-                                            Update
-                                        </button>
-                                        <button className='btn btn-danger' onClick={() => this.deleteTask(task.id)}>
-                                            <FontAwesomeIcon icon='trash' />
-                                            Delete
-                                        </button>
-                                    </td>
-                                </tr>
-                            );
-                        })}
-                    </tbody>
-                </table>
+                                        </td>
+                                        <td className='align-middle'>
+                                            {/*<button className='btn btn-warning' onClick={() => this.setState({ task })}>
+                                                <FontAwesomeIcon icon='edit' />
+                                                Update
+                                            </button>*/}
+                                            <Touchable onPress={() => this.props.deleteTask(task.id)} activeClassName=''>
+                                                <button className='btn btn-danger'>
+                                                    <FontAwesomeIcon icon='trash' />
+                                                    Delete
+                                                </button>                                                             
+                                            </Touchable>
+                                            <button className='btn btn-warning' onClick={() => this.props.selectUpdate(task.id)}>
+                                                <FontAwesomeIcon icon='edit' />
+                                                Update
+                                            </button>
+                                            {/*<button className='btn btn-danger' onClick={() => this.props.deleteTask(task.id)}>
+                                                <FontAwesomeIcon icon='trash' />
+                                                Delete
+                                                </button>*/}
+                                        </td>
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         );
     }

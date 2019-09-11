@@ -1,32 +1,18 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-const initialState = { name: '', done: false, list: [
-    {name: '', done: false},
-    {name: '', done: false}
-] }
-
-export default class AddTask extends Component{
+export default class UpdateTask extends Component{
     constructor(props){
         super(props);
-        this.state = {...initialState};
+        console.log(props)
+        this.state = { task: this.props.task };
     }
 
-    save = () => {
-        if(!this.state.name.trim()){
-            alert('Invalid data put a description')
-            return 
-        }
-        const data = {...this.state};
-        this.props.onSave(data);
-        //<Redirect to='/' />
-    }
-
-    handleList = (event, index) => {
-        var data = {...this.state.list};
-        data[index].nome = event;
-        this.setState({ list: data });
+    changeEvent = event => {
+        var task = {...this.state.task};
+        task.name = event;
+        this.setState({ task });
     }
 
     deleteList = id => {
@@ -41,33 +27,27 @@ export default class AddTask extends Component{
         list.push({name: '', done: false});
         console.log(list)
         this.setState({ list }, console.log('list'))
-    }    
-
-    changeEvent = event => {
-        var task = {...this.state.task};
-        task.name = event;
-        this.setState({ task });
     }
 
     render(){
         return (
             <div className='container'>
-                    <h5 className="modal-title">New Task</h5>
+                    <h5 className="modal-title">Update Task</h5>
                 <div className='container'>
                     <form>
                         <div className='form-group'>
                             <label className='col-md-2'>Name</label>
                             <div className='col-md-10'>
-                                <input className='form-control' onChange={event => this.changeEvent(event)}></input>
+                                <input className='form-control' onChange={event => this.changeEvent(event)} value={this.state.task.name}></input>
                             </div>
                         </div>
                         <div>
-                            {this.state.list.map((list, i) => {
+                            {this.state.task.list.map((list, i) => {
                                 return (
                                     <div className='form-group'>
                                         <label className='col-md-2'>Name</label>
                                         <div className='col-md-10'>
-                                            <input className='form-control' onChange={event => this.handleList(event, i)}></input>
+                                            <input className='form-control' onChange={event => this.handleList(event, i)} value={list.name}></input>
                                         </div>
                                     </div>
                                 );
