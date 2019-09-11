@@ -1,0 +1,12 @@
+//https://tableless.com.br/usando-sass-com-create-react-app-sem-eject/
+//https://scotch.io/tutorials/using-sass-in-create-react-app-v2
+
+@import "colors.scss";
+
+h1 {
+    color: $secondary
+}
+
+.todo-background {
+    background-color: $primary
+}

@@ -38,7 +38,7 @@ class Task extends Component{
                             </tr>
                         </thead>
                         <tbody>
-                            {this.state.tasks.map((task, index) => {
+                            {this.state.tasks.reverse().map((task, index) => {
                                 return (
                                     <tr>
                                         <td className='align-middle'>
@@ -73,10 +73,10 @@ class Task extends Component{
                                                 Update
                                             </button>
                                             <Touchable onPress={() => this.props.deleteTask(task.id)} activeClassName=''>
-                                                <button className='btn btn-danger'>
+                                                <div className='btn btn-danger'>
                                                     <FontAwesomeIcon icon='trash' />
                                                     Delete
-                                                </button>                                                             
+                                                </div>                                                             
                                             </Touchable>
                                         </td>
                                     </tr>
