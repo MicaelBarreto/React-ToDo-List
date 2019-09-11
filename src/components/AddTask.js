@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, withRouter  } from 'react-router-dom';
+import Touchable from 'rc-touchable';
 
 const initialState = { name: '', done: false, list: [
     {name: '', done: false},
     {name: '', done: false}
 ] }
 
-export default class AddTask extends Component{
+class AddTask extends Component{
     constructor(props){
         super(props);
+        
         this.state = {...initialState};
     }
 
@@ -19,34 +21,31 @@ export default class AddTask extends Component{
             return 
         }
         const data = {...this.state};
-        this.props.onSave(data);
-        //<Redirect to='/' />
+        this.props.addTask(data);
+        this.props.history.push('/');
     }
 
     handleList = (event, index) => {
         var data = {...this.state.list};
-        data[index].nome = event;
-        this.setState({ list: data });
+        data[index].name = event.target.value;
+        this.setState({ list: Object.values(data) });
     }
 
     deleteList = id => {
-        var tasks = this.state.tasks.filter(task => task.id !== id);
-        this.setState({ tasks });
+        var list = this.state.list.filter((value, index) => index !== id);
+        this.setState({ list });
     }
 
     addList = () => {
-        console.log('add')
         var list = {...this.state.list};
-        console.log(list)
-        list.push({name: '', done: false});
-        console.log(list)
-        this.setState({ list }, console.log('list'))
+        list[Object.keys(list).length] = {name: '', done: false};
+        this.setState({ list: Object.values(list) })
     }    
 
     changeEvent = event => {
-        var task = {...this.state.task};
-        task.name = event;
-        this.setState({ task });
+        var name = {...this.state.name};
+        name = event;
+        this.setState({ name });
     }
 
     render(){
@@ -57,8 +56,8 @@ export default class AddTask extends Component{
                     <form>
                         <div className='form-group'>
                             <label className='col-md-2'>Name</label>
-                            <div className='col-md-10'>
-                                <input className='form-control' onChange={event => this.changeEvent(event)}></input>
+                            <div className='col-md-9'>
+                                <input className='form-control' onChange={event => this.changeEvent(event.target.value)}></input>
                             </div>
                         </div>
                         <div>
@@ -69,24 +68,38 @@ export default class AddTask extends Component{
                                         <div className='col-md-10'>
                                             <input className='form-control' onChange={event => this.handleList(event, i)}></input>
                                         </div>
+                                        <div className='col-md-1'>
+                                            <Touchable onPress={() => this.deleteList(i)} activeClassName=''>
+                                                <div className='btn btn-danger'>
+                                                    <FontAwesomeIcon icon='trash' />
+                                                </div>
+                                            </Touchable>
+                                        </div>
                                     </div>
                                 );
                             })}
                         </div>
                         <div className='form-group'>
-                            <button className='btn btn-primary' onClick={() => this.addList}>
-                                <FontAwesomeIcon icon='plus' />
-                            </button>
+                            <Touchable onPress={() => this.addList()} activeClassName=''>
+                                <div className='btn btn-primary'>
+                                    <FontAwesomeIcon icon='plus' />
+                                </div>
+                            </Touchable>
                         </div>
                     </form>
+                    
                 </div>
                 <div className='container'>
                     <Link to='/'>Back</Link>
-                    <button className='btn bnt-success' onClick={() => this.save}>
-                        Add
-                    </button>
+                    <Touchable onPress={() => this.save()} activeClassName=''>
+                        <div className='btn btn-success'>
+                            Add
+                        </div>
+                    </Touchable>
                 </div>
             </div>
         );
     }
 }
+
+export default withRouter(AddTask);

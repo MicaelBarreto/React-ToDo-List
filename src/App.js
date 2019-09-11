@@ -59,7 +59,8 @@ export default class App extends Component {
       list.done = true
       return list
     })
-    this.setState({ tasks }, () => console.log(this.state.tasks));
+    
+    this.setState({ tasks });
   }
 
   handleDoneList = (id, index) => {

@@ -1,32 +1,46 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Link } from 'react-router-dom';
+import { Link, withRouter  } from 'react-router-dom';
+import Touchable from 'rc-touchable';
 
-export default class UpdateTask extends Component{
+class UpdateTask extends Component{
     constructor(props){
         super(props);
-        console.log(props)
-        this.state = { task: this.props.task };
+        
+        this.state = {...this.props.task};
     }
 
-    changeEvent = event => {
-        var task = {...this.state.task};
-        task.name = event;
-        this.setState({ task });
+    update = () => {
+        if(!this.state.name.trim()){
+            alert('Invalid data put a description')
+            return 
+        }
+        const data = {...this.state};
+        this.props.updateTask(data);
+        this.props.history.push('/');
+    }
+
+    handleList = (event, index) => {
+        var data = {...this.state.list};
+        data[index].name = event.target.value;
+        this.setState({ list: Object.values(data) });
     }
 
     deleteList = id => {
-        var tasks = this.state.tasks.filter(task => task.id !== id);
-        this.setState({ tasks });
+        var list = this.state.list.filter((value, index) => index !== id);
+        this.setState({ list });
     }
 
     addList = () => {
-        console.log('add')
         var list = {...this.state.list};
-        console.log(list)
-        list.push({name: '', done: false});
-        console.log(list)
-        this.setState({ list }, console.log('list'))
+        list[Object.keys(list).length] = {name: '', done: false};
+        this.setState({ list: Object.values(list) })
+    }    
+
+    changeEvent = event => {
+        var name = {...this.state.name};
+        name = event;
+        this.setState({ name });
     }
 
     render(){
@@ -37,36 +51,50 @@ export default class UpdateTask extends Component{
                     <form>
                         <div className='form-group'>
                             <label className='col-md-2'>Name</label>
-                            <div className='col-md-10'>
-                                <input className='form-control' onChange={event => this.changeEvent(event)} value={this.state.task.name}></input>
+                            <div className='col-md-9'>
+                                <input className='form-control' onChange={event => this.changeEvent(event.target.value)} value={this.state.name}></input>
                             </div>
                         </div>
                         <div>
-                            {this.state.task.list.map((list, i) => {
+                            {this.state.list.map((list, i) => {
                                 return (
                                     <div className='form-group'>
                                         <label className='col-md-2'>Name</label>
                                         <div className='col-md-10'>
                                             <input className='form-control' onChange={event => this.handleList(event, i)} value={list.name}></input>
                                         </div>
+                                        <div className='col-md-1'>
+                                            <Touchable onPress={() => this.deleteList(i)} activeClassName=''>
+                                                <div className='btn btn-danger'>
+                                                    <FontAwesomeIcon icon='trash' />
+                                                </div>
+                                            </Touchable>
+                                        </div>
                                     </div>
                                 );
                             })}
                         </div>
                         <div className='form-group'>
-                            <button className='btn btn-primary' onClick={() => this.addList}>
-                                <FontAwesomeIcon icon='plus' />
-                            </button>
+                            <Touchable onPress={() => this.addList()} activeClassName=''>
+                                <div className='btn btn-primary'>
+                                    <FontAwesomeIcon icon='plus' />
+                                </div>
+                            </Touchable>
                         </div>
                     </form>
+                    
                 </div>
                 <div className='container'>
                     <Link to='/'>Back</Link>
-                    <button className='btn bnt-success' onClick={() => this.save}>
-                        Add
-                    </button>
+                    <Touchable onPress={() => this.update()} activeClassName=''>
+                        <div className='btn btn-success'>
+                            Add
+                        </div>
+                    </Touchable>
                 </div>
             </div>
         );
     }
 }
+
+export default withRouter(UpdateTask);
