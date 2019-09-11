@@ -16,7 +16,7 @@ class UpdateTask extends Component{
             return 
         }
         const data = {...this.state};
-        this.props.updateTask(data);
+        this.props.updateTask(data, this.props.index);
         this.props.history.push('/');
     }
 

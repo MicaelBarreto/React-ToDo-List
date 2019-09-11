@@ -1,15 +1,20 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Touchable from 'rc-touchable';
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 
-export default class Task extends Component{
+class Task extends Component{
     constructor(props){
         super(props);
 
         this.state={
             tasks: this.props.tasks
         };
+    }
+
+    selectUpdate = async (index) => {
+        await this.props.selectUpdate(index);
+        this.props.history.push('/update');
     }
 
     render() {
@@ -33,11 +38,11 @@ export default class Task extends Component{
                             </tr>
                         </thead>
                         <tbody>
-                            {this.state.tasks.map((task) => {
+                            {this.state.tasks.map((task, index) => {
                                 return (
                                     <tr>
                                         <td className='align-middle'>
-                                            <Touchable onPress={() => this.props.handleDone(task)} activeClassName=''>
+                                            <Touchable onPress={() => this.props.handleDone(index)} activeClassName=''>
                                                 <FontAwesomeIcon icon="check-circle" color={task.done === true ? '#218838' : '#DEE2E6'} size='4x' />
                                             </Touchable>
                                         </td>
@@ -47,8 +52,8 @@ export default class Task extends Component{
                                                 <div className='offset-md-1'>                                                
                                                     {task.list.map((list, i) => {
                                                         return(
-                                                            <Touchable onPress={() => this.props.handleDoneList(task.id, i)} activeClassName=''>
-                                                                <ul class="list-inline">
+                                                            <Touchable onPress={() => this.props.handleDoneList(index, i)} activeClassName=''>
+                                                                <ul className="list-inline">
                                                                     <li className='list-inline-item'>
                                                                         <FontAwesomeIcon icon="check-circle" color={list.done === true ? '#218838' : '#DEE2E6'} size='lg' /> 
                                                                     </li>
@@ -63,16 +68,16 @@ export default class Task extends Component{
                                             </div>
                                         </td>
                                         <td className='align-middle'>
+                                            <button className='btn btn-warning' onClick={() => this.selectUpdate(index)}>
+                                                <FontAwesomeIcon icon='edit' />
+                                                Update
+                                            </button>
                                             <Touchable onPress={() => this.props.deleteTask(task.id)} activeClassName=''>
                                                 <button className='btn btn-danger'>
                                                     <FontAwesomeIcon icon='trash' />
                                                     Delete
                                                 </button>                                                             
                                             </Touchable>
-                                            <button className='btn btn-warning' onClick={() => this.props.selectUpdate(task.id)}>
-                                                <FontAwesomeIcon icon='edit' />
-                                                Update
-                                            </button>
                                         </td>
                                     </tr>
                                 );
@@ -84,3 +89,5 @@ export default class Task extends Component{
         );
     }
 }
+
+export default withRouter(Task);

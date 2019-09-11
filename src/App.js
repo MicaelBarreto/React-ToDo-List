@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Task from './components/Task';
 import AddTask from './components/AddTask';
 import UpdateTask from './components/UpdateTask';
@@ -35,7 +35,9 @@ export default class App extends Component {
     super();
 
     this.state = {
-      tasks
+      tasks,
+      task: [],
+      indexUpdate: 0,
     }
   }
 
@@ -50,24 +52,23 @@ export default class App extends Component {
     this.setState({ tasks });
   }
 
-  handleDone = task => {
-    //trocar por index
-    //Quebrando
+  handleDone = index => {
     var tasks = {...this.state.tasks};
-    tasks[task.id].done = tasks[task.id].done === true ? false : true;
-    tasks[task.id].list = tasks[task.id].list.map(list => {
-      list.done = true
-      return list
+    tasks[index].done = tasks[index].done === true ? false : true;
+    tasks[index].list = tasks[index].list.map(list => {
+      if(tasks[index].done){
+        list.done = true;
+      }      
+      return list;
     })
     
-    this.setState({ tasks });
+    this.setState({ tasks: Object.values(tasks) });
   }
 
   handleDoneList = (id, index) => {
-    //trocar por index
     var tasks = {...this.state.tasks};
     tasks[id].list[index].done = tasks[id].list[index].done === true ? false : true;
-    this.setState({ tasks });
+    this.setState({ tasks: Object.values(tasks) });
   }
 
   deleteTask = id => {
@@ -76,17 +77,16 @@ export default class App extends Component {
     this.setState({ tasks });
   }   
 
-  updateTask = task => {
-    //trocar por index
+  updateTask = (task, index) => {
     var tasks = {...this.state.tasks};
-    tasks[task.id].name = task;
-    this.setState({ tasks });
+    tasks[index] = task;
+    this.setState({ tasks: Object.values(tasks) });
   }
 
-  selectUpdate = (id) => {
-    //trocar por index
-    var task = {...this.state.tasks[id]};
-    return <Redirect to='/' state={task} />;
+  selectUpdate = (index) => {
+    var task = {...this.state.tasks[index]};
+    this.setState({ task, indexUpdate: index });
+    return    
   }
   
   render(){
@@ -96,7 +96,7 @@ export default class App extends Component {
           <Header />
           <Route path='/' exact component={() => <Task tasks={this.state.tasks} handleDone={this.handleDone} deleteTask={this.deleteTask} handleDoneList={this.handleDoneList} selectUpdate={this.selectUpdate} />} />
           <Route path='/create' component={() => <AddTask addTask={this.addTask} />} />
-          <Route path='/update' component={() => <UpdateTask updateTask={this.updateTask} />} />
+          <Route path='/update' component={() => <UpdateTask updateTask={this.updateTask} task={this.state.task} index={this.state.indexUpdate} />} />
         </Router>
       </div>
     );
