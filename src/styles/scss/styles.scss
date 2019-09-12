@@ -21,9 +21,9 @@ body {
         };
     };
     
-    table {
+    /*table {
         border-radius: 20%;
-    };
+    };*/
 
 };
 
@@ -42,4 +42,26 @@ body {
 .header-title {
     @extend %center;
     font-size: 300%;
+};
+
+.table-custom {
+    width: 100%;
+    /*border-collapse: collapse;    
+    -webkit-border-radius: 20%;
+       -moz-border-radius: 20%;
+            border-radius: 20%;*/
+};
+
+.btn-primary.outline:hover, .btn-primary.outline:focus, .btn-primary.outline:active, .btn-primary.outline.active, .open > .dropdown-toggle.btn-primary {
+	color: $primary !important;
+    border-color: $primary !important;
+    box-shadow: none !important;
+    text-decoration-color: $primary !important;
+}
+
+.btn-primary.outline:active, .btn-primary.outline.active {
+    color: $primary !important;
+	border-color: $primary !important;
+	color: $primary !important;
+	box-shadow: none !important;
 }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Touchable from 'rc-touchable';
-import { Link, withRouter } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom';
 
 class Task extends Component{
     constructor(props){
@@ -17,11 +17,12 @@ class Task extends Component{
         this.props.history.push('/update');
     }
 
-    sortColor = (index, task) => {        
-        if(index % 2 == 0){
-            var color = task.done === true ? '#218838' : '#ECF0F5';
+    sortColor = (index, task) => {
+        var color;
+        if(index % 2 === 0){
+            color = task.done === true ? '#218838' : '#ECF0F5';
         }else{
-            var color = task.done === true ? '#218838' : '#D6D8DB';
+            color = task.done === true ? '#218838' : '#D6D8DB';
         }
 
         return color;
@@ -31,7 +32,7 @@ class Task extends Component{
         return (
             <div className='container inner-content'>
                 <div className='row'>
-                    <div className='float-right'>
+                    <div className='col-md-12 offset-md-10'>
                         <Link className='btn btn-success' to='/create'>
                             <FontAwesomeIcon icon='plus' />
                             New
@@ -39,9 +40,9 @@ class Task extends Component{
                     </div>
                 </div>
                 <div className='row'>
-                    <table className='table-striped'>
+                    <table className='table-striped table-custom'>
                         <thead>
-                            <tr class="table-secondary">
+                            <tr className="table-secondary">
                                 <th className='col-md-2'>Status</th>
                                 <th className='col-md-8'>To Do</th>
                                 <th className='col-md-2'>Actions</th>

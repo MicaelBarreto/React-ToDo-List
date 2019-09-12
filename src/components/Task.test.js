@@ -1,4 +1,5 @@
 import Task from './Task';
+import { MemoryRouter } from 'react-router';
 
 const tasks = [
     {id:0, name: 'Reunião', done: false, list: [
@@ -33,7 +34,9 @@ it("Testing task...", () => {
 
 it("Testing task rendering", () => {
     const wrapper = render(
-        <Task tasks={tasks} />
+        <MemoryRouter>
+            <Task tasks={tasks} />
+        </MemoryRouter>
     );
 
     expect(wrapper).toMatchSnapshot();
@@ -41,7 +44,9 @@ it("Testing task rendering", () => {
 
 it("Testing task text format", () => {
     const wrapper = mount(
-        <Task tasks={tasks} />
+        <MemoryRouter>
+            <Task tasks={tasks} />
+        </MemoryRouter>
     );
 
     const text = wrapper.find("Link").text();
@@ -51,7 +56,9 @@ it("Testing task text format", () => {
 it("Testing task onClick", () => {
     const spy = sinon.spy();
     const wrapper = mount(
-        <Task tasks={tasks} selectUpdate={spy} />
+        <MemoryRouter>
+            <Task tasks={tasks} selectUpdate={spy} />
+        </MemoryRouter>        
     );
 
     wrapper.find("button").first().simulate("click");

@@ -67,7 +67,7 @@ class AddTask extends Component{
                                     <div className='form-group'>
                                         <label className='col-md-2'>Name</label>
                                         <div className='row'>
-                                            <div className='col-md-11'>
+                                            <div className='col-md-10'>
                                                 <input className='form-control' onChange={event => this.handleList(event, i)}></input>
                                             </div>
                                             <div className='col-md-1'>
@@ -93,12 +93,12 @@ class AddTask extends Component{
                     
                 </div>
                 <div className='container'>
-                    <Link to='/'>Back</Link>
-                    <Touchable onPress={() => this.save()} activeClassName=''>
-                        <div className='btn btn-success'>
+                    <div className='row'>
+                        <Link to='/' className='btn btn-outline-info btn-primary-color'>Back</Link>
+                        <button onClick={() => this.save()} className='btn btn-success offset-md-10'>
                             Add
-                        </div>
-                    </Touchable>
+                        </button>
+                    </div>
                 </div>
             </div>
         );
