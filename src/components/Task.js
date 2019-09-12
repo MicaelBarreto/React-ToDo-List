@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Touchable from 'rc-touchable';
 import { Link, withRouter } from 'react-router-dom';
 
 class Task extends Component{
@@ -32,7 +31,7 @@ class Task extends Component{
         return (
             <div className='container inner-content'>
                 <div className='row'>
-                    <div className='col-md-12 offset-md-10'>
+                    <div className='col-xs-12 col-sm-12 col-md-12 col-lg-12 offset-xs-10 offset-sm-10 offset-md-10 offset-lg-10'>
                         <Link className='btn btn-success' to='/create'>
                             <FontAwesomeIcon icon='plus' />
                             New
@@ -40,30 +39,30 @@ class Task extends Component{
                     </div>
                 </div>
                 <div className='row'>
-                    <table className='table-striped table-custom'>
+                    <table className='table table-striped'>
                         <thead>
                             <tr className="table-secondary">
-                                <th className='col-md-2'>Status</th>
-                                <th className='col-md-8'>To Do</th>
-                                <th className='col-md-2'>Actions</th>
+                                <th className='col-xs-2 col-sm-2 col-md-2 col-lg-2'>Status</th>
+                                <th className='col-xs-8 col-sm-8 col-md-8 col-lg-8'>To Do</th>
+                                <th className='col-xs-2 col-sm-2 col-md-2 col-lg-2'>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             {this.state.tasks.map((task, index) => {
                                 return (
                                     <tr>
-                                        <td className='col-md-2 align-self-center'>
-                                            <Touchable onPress={() => this.props.handleDone(index)} activeClassName=''>
+                                        <td className='col-xs-2 col-sm-2 col-md-2 col-lg-2'>
+                                            <button onClick={() => this.props.handleDone(index)} className='btn'>
                                                 <FontAwesomeIcon icon="check-circle" color={this.sortColor(index, task)} size='4x' />
-                                            </Touchable>
+                                            </button>
                                         </td>
                                         <td>                                        
-                                            <div className='container offset-md-1'>
+                                            <div className='container offset-xs-1 offset-sm-1 offset-md-1 offset-lg-1'>
                                                 <h3>{task.name}</h3>
-                                                <div className='offset-md-1'>                                                
+                                                <div className='offset-xs-1 offset-sm-1 offset-md-1 offset-lg-1'>                                                
                                                     {task.list.map((list, i) => {
                                                         return(
-                                                            <Touchable onPress={() => this.props.handleDoneList(index, i)} activeClassName=''>
+                                                            <button onClick={() => this.props.handleDoneList(index, i)} className='btn'>
                                                                 <ul className="list-inline">
                                                                     <li className='list-inline-item'>
                                                                         <FontAwesomeIcon icon="check-circle" color={this.sortColor(index, list)} size='lg' /> 
@@ -72,21 +71,25 @@ class Task extends Component{
                                                                         {list.name}
                                                                     </li>
                                                                 </ul>                                                              
-                                                            </Touchable>                                                                
+                                                            </button>                                                                
                                                         );
                                                     })}                                                
                                                 </div>
                                             </div>
                                         </td>
                                         <td className='align-middle'>
-                                            <button className='btn btn-outline-info' onClick={() => this.selectUpdate(index)}>
-                                                <FontAwesomeIcon icon='edit' />
-                                                Update
-                                            </button>
-                                            <button className='btn btn-outline-danger' onClick={() => this.props.deleteTask(task.id)}>
-                                                <FontAwesomeIcon icon='trash' />
-                                                Delete
-                                            </button>
+                                            <div className='container'>
+                                                <div className='row'>
+                                                    <button className='btn btn-outline-primary' onClick={() => this.selectUpdate(index)}>
+                                                        <FontAwesomeIcon icon='edit' />
+                                                        Update
+                                                    </button>
+                                                    <button className='btn btn-outline-danger' onClick={() => this.props.deleteTask(task.id)}>
+                                                        <FontAwesomeIcon icon='trash' />
+                                                        Delete
+                                                    </button>
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
                                 );

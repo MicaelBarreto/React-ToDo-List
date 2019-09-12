@@ -6,7 +6,7 @@ import Touchable from 'rc-touchable';
 const initialState = { name: '', done: false, list: [
     {name: '', done: false},
     {name: '', done: false}
-] }
+]};
 
 class AddTask extends Component{
     constructor(props){
@@ -55,21 +55,17 @@ class AddTask extends Component{
                 <div className='container'>
                     <form>
                         <div className='form-group'>
-                            <label className='col-md-2'>To Do</label>
+                            <label className='col-xs-2 col-sm-2 col-md-2 col-lg-2'>To Do</label>
                             <input className='form-control' onChange={event => this.changeEvent(event.target.value)}></input>
                         </div>
                         <div className='form-group'>
-                            <label className='col-md-2'>List</label>
+                            <label className='col-xs-2 col-sm-2 col-md-2 col-lg-2'>List</label>
                         </div>
-                        <div className='offset-md-1'>
+                        <div className='offset-xs-1 offset-sm-1 offset-md-1 offset-lg-1'>
                             {this.state.list.map((list, i) => {
-                                return (
-                                    <div className='form-group'>
-                                        <label className='col-md-2'>Name</label>
-                                        <div className='row'>
-                                            <div className='col-md-10'>
-                                                <input className='form-control' onChange={event => this.handleList(event, i)}></input>
-                                            </div>
+                                var buttonTrash = () => {
+                                    if(i > 0){
+                                        return(
                                             <div className='col-md-1'>
                                                 <Touchable onPress={() => this.deleteList(i)} activeClassName=''>
                                                     <div className='btn btn-danger'>
@@ -77,12 +73,23 @@ class AddTask extends Component{
                                                     </div>
                                                 </Touchable>
                                             </div>
+                                        );
+                                    }
+                                }
+                                return (
+                                    <div className='form-group'>
+                                        <label className='col-xs-2 col-sm-2 col-md-2 col-lg-2'>Name</label>
+                                        <div className='row'>
+                                            <div className='col-xs-10 col-sm-10 col-md-10 col-lg-10'>
+                                                <input className='form-control' onChange={event => this.handleList(event, i)}></input>
+                                            </div>
+                                            {buttonTrash()}                                            
                                         </div>
                                     </div>
                                 );
                             })}
                             <div className='form-group'>
-                                <Touchable onPress={() => this.addList()} activeClassName=''>
+                                <Touchable onPress={() => this.addList()} activeClassName='active'>
                                     <div className='btn btn-primary'>
                                         <FontAwesomeIcon icon='plus' />
                                     </div>
@@ -94,8 +101,11 @@ class AddTask extends Component{
                 </div>
                 <div className='container'>
                     <div className='row'>
-                        <Link to='/' className='btn btn-outline-info btn-primary-color'>Back</Link>
-                        <button onClick={() => this.save()} className='btn btn-success offset-md-10'>
+                        <Link to='/' className='btn btn-outline-primary col-xs-1 col-sm-1 col-md-1 col-lg-1'>
+                            <FontAwesomeIcon icon='chevron-left' />
+                            Back
+                        </Link>
+                        <button onClick={() => this.save()} className='btn btn-success offset-xs-10 offset-sm-10 offset-md-10 offset-lg-10 col-xs-1 col-sm-1 col-md-1 col-lg-1'>
                             Add
                         </button>
                     </div>

@@ -1,6 +1,3 @@
-//https://tableless.com.br/usando-sass-com-create-react-app-sem-eject/
-//https://scotch.io/tutorials/using-sass-in-create-react-app-v2
-
 @import "colors.scss";
 
 %center {
@@ -46,22 +43,44 @@ body {
 
 .table-custom {
     width: 100%;
-    /*border-collapse: collapse;    
+    border-collapse: collapse;    
     -webkit-border-radius: 20%;
        -moz-border-radius: 20%;
-            border-radius: 20%;*/
+            border-radius: 20%;
 };
 
-.btn-primary.outline:hover, .btn-primary.outline:focus, .btn-primary.outline:active, .btn-primary.outline.active, .open > .dropdown-toggle.btn-primary {
-	color: $primary !important;
+.btn-outline-primary {
+    color: $primary !important;
     border-color: $primary !important;
-    box-shadow: none !important;
-    text-decoration-color: $primary !important;
-}
+};
 
-.btn-primary.outline:active, .btn-primary.outline.active {
+.btn-outline-primary:hover, .btn-outline-primary:focus, .btn-outline-primary:active, .btn-outline-primary.active, .open > .dropdown-toggle.btn-primary {
+    border-color: $primary !important;
+    background-color: $primary !important;
+    box-shadow: none !important;
+    color: $secondary !important;
+};
+
+.btn-outline-primary:active {
     color: $primary !important;
 	border-color: $primary !important;
-	color: $primary !important;
-	box-shadow: none !important;
-}
+};
+
+// .active {
+//     cursor: pointer !important;
+//     &:hover {
+//         cursor: pointer;
+//     };
+
+//     &:focus {
+//         cursor: pointer;
+//     };
+
+//     &:active {
+//         cursor: pointer;
+//     };
+
+//     &:not(:disabled) {
+//         cursor: pointer;
+//     };
+// }

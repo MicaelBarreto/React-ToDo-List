@@ -5,7 +5,7 @@ import AddTask from './components/AddTask';
 import UpdateTask from './components/UpdateTask';
 import Header from './components/partials/Header';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faPlus, faEdit, faTrash, faCheckCircle, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faEdit, faTrash, faCheckCircle, faTimes, faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 
 var tasks = [
   {id:0, name: 'Reunião', done: false, list: [
@@ -103,4 +103,4 @@ export default class App extends Component {
   }
 }
 
-library.add(faPlus, faEdit, faTrash, faCheckCircle, faTimes);
+library.add(faPlus, faEdit, faTrash, faCheckCircle, faTimes, faChevronLeft);
