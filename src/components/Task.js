@@ -17,9 +17,19 @@ class Task extends Component{
         this.props.history.push('/update');
     }
 
+    sortColor = (index, task) => {        
+        if(index % 2 == 0){
+            var color = task.done === true ? '#218838' : '#ECF0F5';
+        }else{
+            var color = task.done === true ? '#218838' : '#D6D8DB';
+        }
+
+        return color;
+    }
+
     render() {
         return (
-            <div className='container'>
+            <div className='container inner-content'>
                 <div className='row'>
                     <div className='float-right'>
                         <Link className='btn btn-success' to='/create'>
@@ -29,25 +39,25 @@ class Task extends Component{
                     </div>
                 </div>
                 <div className='row'>
-                    <table className='table'>
+                    <table className='table-striped'>
                         <thead>
-                            <tr>
-                                <th>Status</th>
-                                <th className='col-md-9'>To Do</th>
-                                <th>Actions</th>
+                            <tr class="table-secondary">
+                                <th className='col-md-2'>Status</th>
+                                <th className='col-md-8'>To Do</th>
+                                <th className='col-md-2'>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {this.state.tasks.reverse().map((task, index) => {
+                            {this.state.tasks.map((task, index) => {
                                 return (
                                     <tr>
-                                        <td className='align-middle'>
+                                        <td className='col-md-2 align-self-center'>
                                             <Touchable onPress={() => this.props.handleDone(index)} activeClassName=''>
-                                                <FontAwesomeIcon icon="check-circle" color={task.done === true ? '#218838' : '#DEE2E6'} size='4x' />
+                                                <FontAwesomeIcon icon="check-circle" color={this.sortColor(index, task)} size='4x' />
                                             </Touchable>
                                         </td>
                                         <td>                                        
-                                            <div className='container offset-md-2'>
+                                            <div className='container offset-md-1'>
                                                 <h3>{task.name}</h3>
                                                 <div className='offset-md-1'>                                                
                                                     {task.list.map((list, i) => {
@@ -55,7 +65,7 @@ class Task extends Component{
                                                             <Touchable onPress={() => this.props.handleDoneList(index, i)} activeClassName=''>
                                                                 <ul className="list-inline">
                                                                     <li className='list-inline-item'>
-                                                                        <FontAwesomeIcon icon="check-circle" color={list.done === true ? '#218838' : '#DEE2E6'} size='lg' /> 
+                                                                        <FontAwesomeIcon icon="check-circle" color={this.sortColor(index, list)} size='lg' /> 
                                                                     </li>
                                                                     <li className='list-inline-item'>
                                                                         {list.name}
@@ -68,16 +78,14 @@ class Task extends Component{
                                             </div>
                                         </td>
                                         <td className='align-middle'>
-                                            <button className='btn btn-warning' onClick={() => this.selectUpdate(index)}>
+                                            <button className='btn btn-outline-info' onClick={() => this.selectUpdate(index)}>
                                                 <FontAwesomeIcon icon='edit' />
                                                 Update
                                             </button>
-                                            <Touchable onPress={() => this.props.deleteTask(task.id)} activeClassName=''>
-                                                <div className='btn btn-danger'>
-                                                    <FontAwesomeIcon icon='trash' />
-                                                    Delete
-                                                </div>                                                             
-                                            </Touchable>
+                                            <button className='btn btn-outline-danger' onClick={() => this.props.deleteTask(task.id)}>
+                                                <FontAwesomeIcon icon='trash' />
+                                                Delete
+                                            </button>
                                         </td>
                                     </tr>
                                 );

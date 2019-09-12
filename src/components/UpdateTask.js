@@ -45,7 +45,7 @@ class UpdateTask extends Component{
 
     render(){
         return (
-            <div className='container'>
+            <div className='container inner-content'>
                     <h5 className="modal-title">Update Task</h5>
                 <div className='container'>
                     <form>

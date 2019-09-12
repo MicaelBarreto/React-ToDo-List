@@ -3,10 +3,43 @@
 
 @import "colors.scss";
 
-h1 {
-    color: $secondary
-}
+%center {
+    text-align: center;
+    margin-bottom: 3%;
+};
 
-.todo-background {
-    background-color: $primary
+body {
+    background-color: $primary;
+
+    div{
+        nav {
+            justify-content: center;
+            h1 {
+                color: $secondary;
+                text-align: center;
+            };
+        };
+    };
+    
+    table {
+        border-radius: 20%;
+    };
+
+};
+
+.inner-content {
+    background-color: $secondary;
+    border-radius: 20%;
+    padding: 5% 10% 5% 10%;
+    margin-bottom: 5%;
+};
+
+.component-title {
+   @extend %center;
+   font-size: 200%;
+};
+
+.header-title {
+    @extend %center;
+    font-size: 300%;
 }

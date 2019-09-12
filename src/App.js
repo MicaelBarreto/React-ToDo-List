@@ -91,7 +91,7 @@ export default class App extends Component {
   
   render(){
     return (
-      <div className='container todo-background'>
+      <div className='container'> 
         <Router>
           <Header />
           <Route path='/' exact component={() => <Task tasks={this.state.tasks} handleDone={this.handleDone} deleteTask={this.deleteTask} handleDoneList={this.handleDoneList} selectUpdate={this.selectUpdate} />} />

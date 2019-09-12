@@ -50,41 +50,44 @@ class AddTask extends Component{
 
     render(){
         return (
-            <div className='container'>
-                    <h5 className="modal-title">New Task</h5>
+            <div className='container inner-content'>
+                <h5 className="component-title">New Task</h5>
                 <div className='container'>
                     <form>
                         <div className='form-group'>
-                            <label className='col-md-2'>Name</label>
-                            <div className='col-md-9'>
-                                <input className='form-control' onChange={event => this.changeEvent(event.target.value)}></input>
-                            </div>
+                            <label className='col-md-2'>To Do</label>
+                            <input className='form-control' onChange={event => this.changeEvent(event.target.value)}></input>
                         </div>
-                        <div>
+                        <div className='form-group'>
+                            <label className='col-md-2'>List</label>
+                        </div>
+                        <div className='offset-md-1'>
                             {this.state.list.map((list, i) => {
                                 return (
                                     <div className='form-group'>
                                         <label className='col-md-2'>Name</label>
-                                        <div className='col-md-10'>
-                                            <input className='form-control' onChange={event => this.handleList(event, i)}></input>
-                                        </div>
-                                        <div className='col-md-1'>
-                                            <Touchable onPress={() => this.deleteList(i)} activeClassName=''>
-                                                <div className='btn btn-danger'>
-                                                    <FontAwesomeIcon icon='trash' />
-                                                </div>
-                                            </Touchable>
+                                        <div className='row'>
+                                            <div className='col-md-11'>
+                                                <input className='form-control' onChange={event => this.handleList(event, i)}></input>
+                                            </div>
+                                            <div className='col-md-1'>
+                                                <Touchable onPress={() => this.deleteList(i)} activeClassName=''>
+                                                    <div className='btn btn-danger'>
+                                                        <FontAwesomeIcon icon='trash' />
+                                                    </div>
+                                                </Touchable>
+                                            </div>
                                         </div>
                                     </div>
                                 );
                             })}
-                        </div>
-                        <div className='form-group'>
-                            <Touchable onPress={() => this.addList()} activeClassName=''>
-                                <div className='btn btn-primary'>
-                                    <FontAwesomeIcon icon='plus' />
-                                </div>
-                            </Touchable>
+                            <div className='form-group'>
+                                <Touchable onPress={() => this.addList()} activeClassName=''>
+                                    <div className='btn btn-primary'>
+                                        <FontAwesomeIcon icon='plus' />
+                                    </div>
+                                </Touchable>
+                            </div>                        
                         </div>
                     </form>
                     
