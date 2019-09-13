@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Task from './components/Task';
-import AddTask from './components/AddTask';
-import UpdateTask from './components/UpdateTask';
+import ChangeTasks from './components/ChangeTasks';
 import Header from './components/partials/Header';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faPlus, faEdit, faTrash, faCheckCircle, faTimes, faChevronLeft } from '@fortawesome/free-solid-svg-icons';
@@ -35,9 +34,7 @@ export default class App extends Component {
     super();
 
     this.state = {
-      tasks,
-      task: [],
-      indexUpdate: 0,
+      tasks
     }
   }
 
@@ -77,16 +74,10 @@ export default class App extends Component {
     this.setState({ tasks });
   }   
 
-  updateTask = (task, index) => {
+  updateTask = task => {
     var tasks = {...this.state.tasks};
-    tasks[index] = task;
+    tasks[task.index] = task;
     this.setState({ tasks: Object.values(tasks) });
-  }
-
-  selectUpdate = (index) => {
-    var task = {...this.state.tasks[index]};
-    this.setState({ task, indexUpdate: index });
-    return    
   }
   
   render(){
@@ -95,8 +86,8 @@ export default class App extends Component {
         <Router>
           <Header />
           <Route path='/' exact component={() => <Task tasks={this.state.tasks} handleDone={this.handleDone} deleteTask={this.deleteTask} handleDoneList={this.handleDoneList} selectUpdate={this.selectUpdate} />} />
-          <Route path='/create' component={() => <AddTask addTask={this.addTask} />} />
-          <Route path='/update' component={() => <UpdateTask updateTask={this.updateTask} task={this.state.task} index={this.state.indexUpdate} />} />
+          <Route path='/create' component={() => <ChangeTasks changeTasks={this.addTask} />} />
+          <Route path='/update' component={() => <ChangeTasks changeTasks={this.updateTask} />} />
         </Router>
       </div>
     );

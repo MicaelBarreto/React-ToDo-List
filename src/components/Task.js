@@ -15,9 +15,41 @@ class Task extends Component{
         };
     }
 
-    selectUpdate = async (index) => {
-        await this.props.selectUpdate(index);
-        this.props.history.push('/update');
+    selectUpdate = (index) => {
+        this.props.history.push({
+            pathname: '/update',
+            state: { 
+                ...this.state.tasks[index],
+                isNew: false,
+                index,
+            }
+        });
+    }
+
+    renderTask = (index, task) => {
+        return (
+            <div>
+                <h3>{task.name}</h3>
+                <div className='offset-xs-1 offset-sm-1 offset-md-1 offset-lg-1'>                                                
+                    {task.list.map((list, i) => {
+                        return(
+                            <div className='row'>
+                                <button onClick={() => this.props.handleDoneList(index, i)} className='btn'>
+                                    <ul className="list-inline">
+                                        <li className='list-inline-item'>
+                                            <FontAwesomeIcon icon="check-circle" color={this.sortColor(index, list)} size='lg' /> 
+                                        </li>
+                                        <li className='list-inline-item'>
+                                            {list.name}
+                                        </li>
+                                    </ul>                                                              
+                                </button>
+                            </div>                                                               
+                        );
+                    })}                                                
+                </div>
+            </div>
+        );
     }
 
     sortColor = (index, task) => {
@@ -38,11 +70,10 @@ class Task extends Component{
     render() {
         return (
             <div className='container inner-content'>                
-                <div className='row mb-5'>
-                    <div className='col-xs-12 col-sm-12 col-md-12 col-lg-12 offset-xs-10 offset-sm-10 offset-md-10 offset-lg-10'>
-                        <Link className='btn btn-success col-xs-2 col-sm-2 col-md-2 col-lg-2 btn-lg' to='/create'>
+                <div className='row mb-3'>
+                    <div className='col-xs-12 col-sm-12 col-md-12 col-lg-12 offset-xs-11 offset-sm-11 offset-md-11 offset-lg-11'>
+                        <Link className='btn btn-success col-xs-1 col-sm-1 col-md-1 col-lg-1' to={{pathname: '/create', state: {isNew: true}}}>
                             <FontAwesomeIcon icon='plus' />
-                            New
                         </Link>
                     </div>
                 </div>
@@ -59,25 +90,7 @@ class Task extends Component{
                                         </td>
                                         <td className='col-xs-8 col-sm-8 col-md-8 col-lg-8'>                                        
                                             <div className='container offset-xs-1 offset-sm-1 offset-md-1 offset-lg-1'>
-                                                <h3>{task.name}</h3>
-                                                <div className='offset-xs-1 offset-sm-1 offset-md-1 offset-lg-1'>                                                
-                                                    {task.list.map((list, i) => {
-                                                        return(
-                                                            <div className='row'>
-                                                                <button onClick={() => this.props.handleDoneList(index, i)} className='btn'>
-                                                                    <ul className="list-inline">
-                                                                        <li className='list-inline-item'>
-                                                                            <FontAwesomeIcon icon="check-circle" color={this.sortColor(index, list)} size='lg' /> 
-                                                                        </li>
-                                                                        <li className='list-inline-item'>
-                                                                            {list.name}
-                                                                        </li>
-                                                                    </ul>                                                              
-                                                                </button>
-                                                            </div>                                                               
-                                                        );
-                                                    })}                                                
-                                                </div>
+                                                {this.renderTask(index, task)}
                                             </div>
                                         </td>
                                         <td className='col-xs-2 col-sm-2 col-md-2 col-lg-2 middle-alignment'>
@@ -106,8 +119,7 @@ class Task extends Component{
                     show={this.state.showModal} 
                     task={this.state.task} 
                     closeModal={() => this.setState({ showModal: false })}
-                    //handleDoneList={(index, i) => this.props.handleDoneList(index, i)}
-                    sortColor={(index, task) => this.sortColor(index, task)}
+                    renderTask={(index, task) => this.renderTask(index, task)}
                     index={this.state.index} /> : null }
             </div>
         );

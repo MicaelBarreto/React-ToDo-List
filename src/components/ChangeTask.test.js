@@ -1,28 +1,28 @@
-import AddTask from './AddTask';
+import ChangeTasks from './ChangeTasks';
 import { MemoryRouter } from 'react-router';
 
-it("Testing AddTask...", () => {
+it("Testing ChangeTasks...", () => {
     const wrapper = shallow(
-        <AddTask />
+        <ChangeTasks />
     );
 
     expect(wrapper).toMatchSnapshot();
 });
 
-it("Testing AddTask rendering", () => {
+it("Testing ChangeTasks rendering", () => {
     const wrapper = render(
         <MemoryRouter>
-            <AddTask />
+            <ChangeTasks />
         </MemoryRouter>
     );
 
     expect(wrapper).toMatchSnapshot();
 });
 
-it("Testing AddTask text format", () => {
+it("Testing ChangeTasks text format", () => {
     const wrapper = mount(
         <MemoryRouter>
-            <AddTask />
+            <ChangeTasks />
         </MemoryRouter>
     );
 
@@ -30,11 +30,11 @@ it("Testing AddTask text format", () => {
     expect(text).toEqual("New");
 });
 
-it("Testing AddTask onClick", () => {
+it("Testing ChangeTasks onClick", () => {
     const spy = sinon.spy();
     const wrapper = mount(
         <MemoryRouter>
-            <AddTask selectUpdate={spy} />
+            <ChangeTasks selectUpdate={spy} />
         </MemoryRouter>        
     );
 

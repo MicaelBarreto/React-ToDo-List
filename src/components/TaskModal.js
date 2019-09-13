@@ -1,8 +1,9 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
-const TaskModal = props => {    
+const TaskModal = props => {
+    const task = props.task;
+    const index = props.index;
     return (
         <div className="modal-backdrop" id="exampleModal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div className="modal-dialog" role="document">
@@ -14,28 +15,10 @@ const TaskModal = props => {
                         </button>
                     </div>
                     <div className="modal-body">
-                        <h3>{props.task.name}</h3>
-                        <div className='offset-xs-1 offset-sm-1 offset-md-1 offset-lg-1'>                                                
-                            {props.task.list.map((list, i) => {
-                                return(
-                                    <div className='row'>
-                                        {/*<button onClick={() => props.handleDoneList(props.index, i)} className='btn'>*/}
-                                        <ul className="list-inline">
-                                            <li className='list-inline-item'>
-                                                <FontAwesomeIcon icon="check-circle" color={props.sortColor(props.index, list)} size='lg' /> 
-                                            </li>
-                                            <li className='list-inline-item'>
-                                                {list.name}
-                                            </li>
-                                        </ul>                                                              
-                                        {/*</button>*/}
-                                    </div>                                                               
-                                );
-                            })}
-                        </div> 
+                        {props.renderTask(index, task)}
                     </div>
                     <div className="modal-footer">
-                        <button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={() => props.closeModal()}>Close</button>
+                        <button type="button" className="btn btn-outline-primary" data-dismiss="modal" onClick={() => props.closeModal()}>Close</button>
                     </div>
                 </div>
             </div>

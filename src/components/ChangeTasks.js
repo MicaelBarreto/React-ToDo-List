@@ -4,15 +4,15 @@ import { Link, withRouter  } from 'react-router-dom';
 import Touchable from 'rc-touchable';
 
 const initialState = { name: '', done: false, list: [
-    {name: '', done: false},
-    {name: '', done: false}
-]};
+    {id: 0, name: '', done: false},
+    {id: 1, name: '', done: false}],
+};
 
-class AddTask extends Component{
+class ChangeTasks extends Component{
     constructor(props){
         super(props);
         
-        this.state = {...initialState};
+        this.state = this.props.location.state.isNew === true ? {...initialState, isNew: this.props.location.state.isNew} : this.props.location.state;
     }
 
     save = () => {
@@ -21,7 +21,8 @@ class AddTask extends Component{
             return 
         }
         const data = {...this.state};
-        this.props.addTask(data);
+        // improve to update send only padronized data!
+        this.props.changeTasks(data);
         this.props.history.push('/');
     }
 
@@ -31,17 +32,15 @@ class AddTask extends Component{
         this.setState({ list: Object.values(data) });
     }
 
-    deleteList = index => {
-        // Broken
-        var list = {...this.state.list};
-        var arr = Object.values(list).splice(index, 1);
-        console.log(arr)
+    deleteList = id => {
+        // Broken - para qualquer index de update e para ultimo index de add
+        var list = this.state.list.filter(list => list.id !== id);
         this.setState({ list });
-    }
+    } 
 
     addList = () => {
         var list = {...this.state.list};
-        list[Object.keys(list).length] = {name: '', done: false};
+        list[Object.keys(list).length] = {id: Object.keys(list).length, name: '', done: false};
         this.setState({ list: Object.values(list) })
     }    
 
@@ -54,12 +53,12 @@ class AddTask extends Component{
     render(){
         return (
             <div className='container inner-content'>
-                <h5 className="component-title">New Task</h5>
+                <h5 className="component-title">{this.state.isNew === true ? 'New' : 'Update'} Task</h5>
                 <div className='container'>
                     <form>
                         <div className='form-group'>
                             <label className='col-xs-2 col-sm-2 col-md-2 col-lg-2'>To Do</label>
-                            <input className='form-control' onChange={event => this.changeEvent(event.target.value)}></input>
+                            <input className='form-control' onChange={event => this.changeEvent(event.target.value)} value={this.state.name}></input>
                         </div>
                         <div className='form-group'>
                             <label className='col-xs-2 col-sm-2 col-md-2 col-lg-2'>List</label>
@@ -69,8 +68,8 @@ class AddTask extends Component{
                                 var buttonTrash = () => {
                                     if(i > 0){
                                         return(
-                                            <div className='col-md-1'>
-                                                <Touchable onPress={() => this.deleteList(i)} activeClassName=''>
+                                            <div className='col-xs-1 col-sm-1 col-md-1 col-lg-1'>
+                                                <Touchable onPress={() => this.deleteList(list.id)} activeClassName=''>
                                                     <div className='btn btn-danger'>
                                                         <FontAwesomeIcon icon='trash' />
                                                     </div>
@@ -84,7 +83,7 @@ class AddTask extends Component{
                                         <label className='col-xs-2 col-sm-2 col-md-2 col-lg-2'>Name</label>
                                         <div className='row'>
                                             <div className='col-xs-10 col-sm-10 col-md-10 col-lg-10'>
-                                                <input className='form-control' onChange={event => this.handleList(event, i)}></input>
+                                                <input className='form-control' onChange={event => this.handleList(event, i)} value={list.name}></input>
                                             </div>
                                             {buttonTrash()}                                            
                                         </div>
@@ -109,7 +108,7 @@ class AddTask extends Component{
                             Back
                         </Link>
                         <button onClick={() => this.save()} className='btn btn-success offset-xs-10 offset-sm-10 offset-md-10 offset-lg-10 col-xs-1 col-sm-1 col-md-1 col-lg-1'>
-                            Add
+                            {this.state.isNew === true ? 'Save' : 'Update'}
                         </button>
                     </div>
                 </div>
@@ -118,4 +117,4 @@ class AddTask extends Component{
     }
 }
 
-export default withRouter(AddTask);
+export default withRouter(ChangeTasks);

@@ -10,6 +10,12 @@ body {
     svg {
         margin-right: 5%;
     }
+
+    div {
+        .btn {
+            cursor: pointer;
+        }
+    }
 }
 
 .inner-content {
@@ -75,6 +81,9 @@ body {
             transition: transform .2s;
             &:hover {
                 transform: scale(1.03);
+            }
+            &:active {
+                transform: scale(1);
             }
         }
     }
