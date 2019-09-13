@@ -31,8 +31,11 @@ class AddTask extends Component{
         this.setState({ list: Object.values(data) });
     }
 
-    deleteList = id => {
-        var list = this.state.list.filter((value, index) => index !== id);
+    deleteList = index => {
+        // Broken
+        var list = {...this.state.list};
+        var arr = Object.values(list).splice(index, 1);
+        console.log(arr)
         this.setState({ list });
     }
 
