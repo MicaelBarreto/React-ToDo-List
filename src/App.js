@@ -8,24 +8,24 @@ import { faPlus, faEdit, faTrash, faCheckCircle, faTimes, faChevronLeft } from '
 
 var tasks = [
   {id:0, name: 'Reunião', done: false, list: [
-      {name: 'Metas', done: false},
-      {name: 'Lucros', done: true},
-      {name: 'Novas propóstas', done: true},
+      {id:0, name: 'Metas', done: false},
+      {id:1, name: 'Lucros', done: true},
+      {id:2, name: 'Novas propóstas', done: true},
   ]},
   {id:1, name: 'Reunião', done: true, list: [
-      {name: 'Metas', done: false},
-      {name: 'Lucros', done: true},
-      {name: 'Novas propóstas', done: true},
+      {id:0, name: 'Metas', done: false},
+      {id:1, name: 'Lucros', done: true},
+      {id:2, name: 'Novas propóstas', done: true},
   ]},
   {id:2, name: 'Reunião', done: false, list: [
-      {name: 'Metas', done: false},
-      {name: 'Lucros', done: true},
-      {name: 'Novas propóstas', done: true},
+      {id:0, name: 'Metas', done: false},
+      {id:1, name: 'Lucros', done: true},
+      {id:2, name: 'Novas propóstas', done: true},
   ]},
   {id:3, name: 'Reunião', done: true, list: [
-      {name: 'Metas', done: false},
-      {name: 'Lucros', done: true},
-      {name: 'Novas propóstas', done: true},
+      {id:0, name: 'Metas', done: false},
+      {id:1, name: 'Lucros', done: true},
+      {id:2, name: 'Novas propóstas', done: true},
   ]},
 ];
 

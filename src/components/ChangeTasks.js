@@ -11,8 +11,9 @@ const initialState = { name: '', done: false, list: [
 class ChangeTasks extends Component{
     constructor(props){
         super(props);
-        
+
         this.state = this.props.location.state.isNew === true ? {...initialState, isNew: this.props.location.state.isNew} : this.props.location.state;
+
     }
 
     save = () => {
@@ -21,9 +22,8 @@ class ChangeTasks extends Component{
             return 
         }
         const data = {...this.state};
-        // improve to update send only padronized data!
-        this.props.changeTasks(data);
-        this.props.history.push('/');
+        this.props.changeTasks(data);        
+        this.setState({...initialState}, this.props.history.push('/'));
     }
 
     handleList = (event, index) => {
@@ -33,15 +33,14 @@ class ChangeTasks extends Component{
     }
 
     deleteList = id => {
-        // Broken - para qualquer index de update e para ultimo index de add
         var list = this.state.list.filter(list => list.id !== id);
         this.setState({ list });
     } 
 
     addList = () => {
         var list = {...this.state.list};
-        list[Object.keys(list).length] = {id: Object.keys(list).length, name: '', done: false};
-        this.setState({ list: Object.values(list) })
+        list.push({id: Object.keys(list).length, name: '', done: false});
+        this.setState({ list });
     }    
 
     changeEvent = event => {
@@ -54,14 +53,14 @@ class ChangeTasks extends Component{
         return (
             <div className='container inner-content'>
                 <h5 className="component-title">{this.state.isNew === true ? 'New' : 'Update'} Task</h5>
-                <div className='container'>
+                <div className='container mb-5'>
                     <form>
                         <div className='form-group'>
-                            <label className='col-xs-2 col-sm-2 col-md-2 col-lg-2'>To Do</label>
+                            <label className='col-xs-2 col-sm-2 col-md-2 col-lg-2 lead'>To Do</label>
                             <input className='form-control' onChange={event => this.changeEvent(event.target.value)} value={this.state.name}></input>
                         </div>
                         <div className='form-group'>
-                            <label className='col-xs-2 col-sm-2 col-md-2 col-lg-2'>List</label>
+                            <label className='col-xs-2 col-sm-2 col-md-2 col-lg-2 lead'>List</label>
                         </div>
                         <div className='offset-xs-1 offset-sm-1 offset-md-1 offset-lg-1'>
                             {this.state.list.map((list, i) => {

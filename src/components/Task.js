@@ -34,10 +34,10 @@ class Task extends Component{
                     {task.list.map((list, i) => {
                         return(
                             <div className='row'>
-                                <button onClick={() => this.props.handleDoneList(index, i)} className='btn'>
+                                <button onClick={() => this.props.handleDoneList(index, i)} className='btn no-outline'>
                                     <ul className="list-inline">
                                         <li className='list-inline-item'>
-                                            <FontAwesomeIcon icon="check-circle" color={this.sortColor(index, list)} size='lg' /> 
+                                            <FontAwesomeIcon icon="check-circle" color={this.sortColor(list)} size='lg' /> 
                                         </li>
                                         <li className='list-inline-item'>
                                             {list.name}
@@ -52,13 +52,8 @@ class Task extends Component{
         );
     }
 
-    sortColor = (index, task) => {
-        var color;
-        if(index % 2 === 0){
-            color = task.done === true ? '#218838' : '#FFFFFF';
-        }else{
-            color = task.done === true ? '#218838' : '#D6D8DB';
-        }
+    sortColor = ( task) => {
+        var color = task.done === true ? '#218838' : '#D6D8DB';
 
         return color;
     }
@@ -85,7 +80,7 @@ class Task extends Component{
                                     <tr className='row' onClick={() => this.toggleModal(index, task)}>
                                         <td className='col-xs-2 col-sm-2 col-md-2 col-lg-2 middle-alignment'>
                                             <button onClick={() => this.props.handleDone(index)} className='btn'>
-                                                <FontAwesomeIcon icon="check-circle" color={this.sortColor(index, task)} size='4x' />
+                                                <FontAwesomeIcon icon="check-circle" color={this.sortColor(task)} size='4x' />
                                             </button>
                                         </td>
                                         <td className='col-xs-8 col-sm-8 col-md-8 col-lg-8'>                                        

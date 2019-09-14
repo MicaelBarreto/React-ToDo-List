@@ -34,7 +34,8 @@ body {
     text-align: center;
     margin-top: 2%;   
     a{
-        text-decoration: none;        
+        text-decoration: none;
+        outline: none;
         h1 {
             @extend %center;
             font-size: 500%;
@@ -113,4 +114,8 @@ body {
 
 .modal-backdrop {
     background-color: rgba(0,0,0,.4) !important;
+}
+
+.no-outline {
+    outline: none;
 }
