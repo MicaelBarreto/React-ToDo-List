@@ -1,4 +1,7 @@
 import React from 'react';
+import {
+    renderTask
+} from '../Common';
 
 
 const TaskModal = props => {
@@ -15,7 +18,7 @@ const TaskModal = props => {
                         </button>
                     </div>
                     <div className="modal-body">
-                        {props.renderTask(index, task)}
+                        {renderTask(index, task)}
                     </div>
                     <div className="modal-footer">
                         <button type="button" className="btn btn-outline-primary" data-dismiss="modal" onClick={() => props.closeModal()}>Close</button>
