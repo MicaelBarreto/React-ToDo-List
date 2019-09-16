@@ -1,6 +1,3 @@
-import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 export var all = [
     {id:0, name: 'Reunião', done: false, list: [
         {id:0, name: 'Metas', done: false},
@@ -45,11 +42,13 @@ export function handleDone(index) {
         return list;
     })
     all = Object.values(all);
+    return all;
 }
 
 export function handleDoneList(id, index) {
     all[id].list[index].done = all[id].list[index].done === true ? false : true;
     all = Object.values(all);
+    return all;
 }
 
 export function deleteTask(id) {
@@ -60,38 +59,6 @@ export function deleteTask(id) {
 export function updateTask(task) {
     all[task.index] = task;
     all = Object.values(all);
-}
-
-
-
-export function renderTask(index) {
-    if(all[index] !== undefined){
-        return (
-            <div>
-                <h3>{all[index].name}</h3>
-                <div className='offset-xs-1 offset-sm-1 offset-md-1 offset-lg-1'>                                                
-                    {all[index].list.map((list, i) => {
-                        return(
-                            <div className='row'>
-                                <button onClick={() => handleDoneList(index, i)} className='btn no-outline'>
-                                    <ul className="list-inline">
-                                        <li className='list-inline-item'>
-                                            <FontAwesomeIcon icon="check-circle" color={sortColor(list)} size='lg' /> 
-                                        </li>
-                                        <li className='list-inline-item'>
-                                            {list.name}
-                                        </li>
-                                    </ul>                                                              
-                                </button>
-                            </div>
-                        );
-                    })}                                                
-                </div>
-            </div>
-        );
-    }else{
-        return <></>;
-    }
 }
 
 export function sortColor(task) {

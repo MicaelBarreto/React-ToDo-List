@@ -21,7 +21,7 @@ it("Testing ChangeTasks rendering", () => {
 
 it("Testing ChangeTasks text format", () => {
     const wrapper = mount(
-        <MemoryRouter>
+        <MemoryRouter isNew={true}>
             <ChangeTasks />
         </MemoryRouter>
     );
@@ -34,7 +34,7 @@ it("Testing ChangeTasks onClick", () => {
     const spy = sinon.spy();
     const wrapper = mount(
         <MemoryRouter>
-            <ChangeTasks selectUpdate={spy} />
+            <ChangeTasks />
         </MemoryRouter>        
     );
 

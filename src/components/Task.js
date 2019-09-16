@@ -1,50 +1,46 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link, withRouter } from 'react-router-dom';
-import TaskModal from './TaskModal';
 import {
     all,
     handleDone,
+    handleDoneList,
     deleteTask,
-    renderTask,
     sortColor
 } from '../Common';
 
 function Task(props) {
 
     const [tasks, setTasks] = useState(all);
-    const [showModal, setModal] = useState(false);
-    const [index, setIndex] = useState(0);
 
     const clickDelete = useCallback(
         (id) => {
             deleteTask(id);
             setTasks(all);
-            setModal(false);
         },
         [tasks],
     )
     
     function selectUpdate(i) {
         props.history.push({
-            pathname: '/update',
+            pathname: '/update/'+i,
             state: {
                 isNew: false,
-                index,
+                index: i,
             }
         });
     }
 
-    //Arrumar update
-    //Mais testes
-
-    //chamando sempre
-    function toggleModal(i, selectedTask) {
-        console.log('entrou')
-        setIndex(i);
-        setModal(true);
+    function done(i) {
+        const done = handleDone(i);
+        setTasks(done);
     }
 
+    function doneList(index, i) {
+        const done = handleDoneList(index, i);
+        setTasks(done);
+    }
+    
     return (
         <div className='container inner-content'>                
             <div className='row mb-3'>
@@ -57,23 +53,41 @@ function Task(props) {
             <div className='row'>
                 <table className='table table-striped round-table'>
                     <tbody>
-                        {tasks.map((tk, i) => {
+                        {tasks.map((tk, index) => {
                             return (
-                                <tr className='row' onClick={() => toggleModal(i, tk)}>
+                                <tr className='row'>
                                     <td className='col-xs-2 col-sm-2 col-md-2 col-lg-2 middle-alignment'>
-                                        <button onClick={() => handleDone(i)} className='btn'>
+                                        <button onClick={() => done(index)} className='btn shadow-none'>
                                             <FontAwesomeIcon icon="check-circle" color={sortColor(tk)} size='4x' />
                                         </button>
                                     </td>
                                     <td className='col-xs-8 col-sm-8 col-md-8 col-lg-8'>                                        
                                         <div className='container offset-xs-1 offset-sm-1 offset-md-1 offset-lg-1'>
-                                            {renderTask(i)}
+                                            <h3>{tk.name}</h3>
+                                            <div className='offset-xs-1 offset-sm-1 offset-md-1 offset-lg-1'>                                                
+                                                {tk.list.map((list, i) => {
+                                                    return(
+                                                        <div className='row'>
+                                                            <button onClick={() => doneList(index, i)} className='btn shadow-none'>
+                                                                <ul className="list-inline">
+                                                                    <li className='list-inline-item'>
+                                                                        <FontAwesomeIcon icon="check-circle" color={sortColor(list)} size='lg' /> 
+                                                                    </li>
+                                                                    <li className='list-inline-item'>
+                                                                        {list.name}
+                                                                    </li>
+                                                                </ul>                                                              
+                                                            </button>
+                                                        </div>
+                                                    );
+                                                })}                                                
+                                            </div>
                                         </div>
                                     </td>
                                     <td className='col-xs-2 col-sm-2 col-md-2 col-lg-2 middle-alignment'>
                                         <div className='container'>
                                             <div className='row'>
-                                                <button className='btn btn-outline-primary col-xs-12 col-sm-12 col-md-12 col-lg-12' onClick={() => selectUpdate(i)}>
+                                                <button className='btn btn-outline-primary col-xs-12 col-sm-12 col-md-12 col-lg-12' onClick={() => selectUpdate(index)}>
                                                     <FontAwesomeIcon icon='edit' />
                                                     Update
                                                 </button>                                                    
@@ -92,10 +106,6 @@ function Task(props) {
                     </tbody>
                 </table>
             </div>
-            { showModal ? <TaskModal 
-                show={showModal}
-                closeModal={() => setModal(false)}
-                index={index} /> : null }
         </div>
     );
 }

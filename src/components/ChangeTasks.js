@@ -3,7 +3,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link, withRouter  } from 'react-router-dom';
 import Touchable from 'rc-touchable';
 import {
-    addTask
+    all,
+    addTask,
+    updateTask
 } from '../Common';
 
 const initialState = { name: '', done: false, list: [
@@ -14,12 +16,14 @@ const initialState = { name: '', done: false, list: [
 function ChangeTasks(props) {
     const [name, setName] = useState('');
     const [list, setList] = useState([]);
+    const [index, setIndex] = useState(0);
     const [isNew, setNew] = useState(true);
     
-    useEffect(() => {        
+    useEffect(() => {
         if(props.location.state.isNew === false){
-            setName(props.location.state.name);
-            setList(props.location.state.list);
+            setIndex(props.location.state.index);
+            setName(all[index].name);
+            setList(Object.values(all[index].list));
             setNew(false);
         }else{
             setName(initialState.name);
@@ -32,18 +36,19 @@ function ChangeTasks(props) {
             alert('Invalid data put a description')
             return 
         }
-        const data = {
+        var data = {
             name,
             done: false,
             list
         };
 
-        if(isNew){
+        if(isNew) {
             addTask(data);
         }else{
-
+            data.index = index;
+            updateTask(data);
         }
-        //props.changeTasks(data);
+        
         props.history.push('/');
     }
 
